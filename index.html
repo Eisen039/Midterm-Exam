@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ABC Colleges - Library Users</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <h1>ABC Colleges</h1>
+  <h2>Library users</h2>
+  <div id="user-cards"></div>
+
+  <script>
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'dayne_cabilao.xml', true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        const xml = xhr.responseXML;
+        const users = xml.getElementsByTagName('user');
+        const container = document.getElementById('user-cards');
+        
+        for (let i = 0; i < users.length; i++) {
+          const user = users[i];
+          const picture = user.getElementsByTagName('picture')[0].textContent;
+          const name = user.getElementsByTagName('name')[0].textContent;
+          const course = user.getElementsByTagName('course')[0].textContent;
+          const year = user.getElementsByTagName('year')[0].textContent;
+          const adviser = user.getElementsByTagName('adviser')[0].textContent;
+          const schoolYear = user.getElementsByTagName('schoolYear')[0].textContent;
+
+          const card = document.createElement('div');
+          card.classList.add('user-card');
+          card.innerHTML = `
+            <img src='${picture}' alt='Profile Picture'>
+            <div class='user-info'>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Course:</strong> ${course}</p>
+              <p><strong>Year Level / Section:</strong> ${year}</p>
+              <p><strong>Adviser:</strong> ${adviser}</p>
+              <p><strong>School Year:</strong> ${schoolYear}</p>
+            </div>
+          `;
+          container.appendChild(card);
+        }
+      }
+    };
+    xhr.send();
+  </script>
+</body>
+</html>
